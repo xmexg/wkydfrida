@@ -33,8 +33,15 @@ Java.perform(() => {
         let upsd_text = Java.cast(upsd_retval, SpannableStringBuilder).toString().trim();
 
         console.log("输入学号: " + uname_text + "  输入密码: " + upsd_text);
-        this.w(makeStuObj(uname_text))
-    };
+        let loginResponseData = makeStuObj(uname_text);
+
+        const method = this.getClass().getDeclaredMethods().map(n => n.getName()).filter(name => ["w", "u"].includes(name))[0]; // w: 潍坊科技学院, u: 山东理工大学
+        if (!method) {
+            console.error("未找到登录方法");
+            return;
+        }
+        this[method](loginResponseData);
+    }
 
 
     /**
